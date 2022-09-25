@@ -1,0 +1,55 @@
+C:/Users/dunca/OneDrive/Documenten/Visual Studio 2022/RaceSimulator/bin/Debug/net6.0/RaceSimulator.exe
+C:/Users/dunca/OneDrive/Documenten/Visual Studio 2022/RaceSimulator/bin/Debug/net6.0/RaceSimulator.deps.json
+C:/Users/dunca/OneDrive/Documenten/Visual Studio 2022/RaceSimulator/bin/Debug/net6.0/RaceSimulator.runtimeconfig.json
+C:/Users/dunca/OneDrive/Documenten/Visual Studio 2022/RaceSimulator/bin/Debug/net6.0/RaceSimulator.dll
+C:/Users/dunca/OneDrive/Documenten/Visual Studio 2022/RaceSimulator/bin/Debug/net6.0/RaceSimulator.pdb
+C:/Users/dunca/OneDrive/Documenten/Visual Studio 2022/RaceSimulator/obj/Debug/net6.0/RaceSimulator.csproj.AssemblyReference.cache
+C:/Users/dunca/OneDrive/Documenten/Visual Studio 2022/RaceSimulator/obj/Debug/net6.0/RaceSimulator.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/dunca/OneDrive/Documenten/Visual Studio 2022/RaceSimulator/obj/Debug/net6.0/RaceSimulator.AssemblyInfoInputs.cache
+C:/Users/dunca/OneDrive/Documenten/Visual Studio 2022/RaceSimulator/obj/Debug/net6.0/RaceSimulator.AssemblyInfo.cs
+C:/Users/dunca/OneDrive/Documenten/Visual Studio 2022/RaceSimulator/obj/Debug/net6.0/RaceSimulator.csproj.CoreCompileInputs.cache
+C:/Users/dunca/OneDrive/Documenten/Visual Studio 2022/RaceSimulator/obj/Debug/net6.0/RaceSimulator.dll
+C:/Users/dunca/OneDrive/Documenten/Visual Studio 2022/RaceSimulator/obj/Debug/net6.0/refint/RaceSimulator.dll
+C:/Users/dunca/OneDrive/Documenten/Visual Studio 2022/RaceSimulator/obj/Debug/net6.0/RaceSimulator.pdb
+C:/Users/dunca/OneDrive/Documenten/Visual Studio 2022/RaceSimulator/obj/Debug/net6.0/RaceSimulator.genruntimeconfig.cache
+C:/Users/dunca/OneDrive/Documenten/Visual Studio 2022/RaceSimulator/obj/Debug/net6.0/ref/RaceSimulator.dll
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.csproj.AssemblyReference.cache
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.AssemblyInfoInputs.cache
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.AssemblyInfo.cs
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.csproj.CoreCompileInputs.cache
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.dll
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/refint/RaceSimulator.dll
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.pdb
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/RaceSimulator.exe
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/RaceSimulator.deps.json
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/RaceSimulator.runtimeconfig.json
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/RaceSimulator.dll
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/RaceSimulator.pdb
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/Controller.dll
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/Model.dll
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/Controller.pdb
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/Model.pdb
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.csproj.CopyComplete
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.genruntimeconfig.cache
+C:/Users/dunca/OneDrive/Documenten/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/ref/RaceSimulator.dll
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/RaceSimulator
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/RaceSimulator.deps.json
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/RaceSimulator.runtimeconfig.json
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/RaceSimulator.dll
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/RaceSimulator.pdb
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/Controller.dll
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/Model.dll
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/Controller.pdb
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/bin/Debug/net6.0/Model.pdb
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.csproj.AssemblyReference.cache
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.GeneratedMSBuildEditorConfig.editorconfig
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.AssemblyInfoInputs.cache
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.AssemblyInfo.cs
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.csproj.CoreCompileInputs.cache
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.csproj.CopyComplete
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.dll
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/refint/RaceSimulator.dll
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.pdb
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/RaceSimulator.genruntimeconfig.cache
+/Users/duncan/Documents/GitHub/RaceSimulator/RaceSimulator/obj/Debug/net6.0/ref/RaceSimulator.dll
