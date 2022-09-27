@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
+using Timer = System.Timers.Timer;
 
 namespace Controller
 {
@@ -13,6 +14,7 @@ namespace Controller
         public DateTime StartTime { get; set; }
         public List<Section> startGridList = new List<Section>();
         private Random _random;
+        private Timer timer;
 
         public delegate void onDriversChanged(object Sender, DriversChangedEventArgs dirversChangedEventArgs);
 
@@ -35,8 +37,13 @@ namespace Controller
             _random = new Random();
             _positions = new Dictionary<Section, SectionData>();
 
+            //Set timer values
+            timer = new Timer(500);
+            timer.Elapsed += OnTimedEvent;
+
             GetStartGrids(Track);
-            AddParticipantToRace(Participants);
+            AddParticipantToStartGrid(Participants);
+            Start();
         }
 
         public void RandomizeEquipment()
@@ -59,25 +66,25 @@ namespace Controller
             return startGridList;
         }
 
-        public void AddParticipantToRace(List<IParticipant> participants)
+        public void AddParticipantToStartGrid(List<IParticipant> participants)
         {
-            int driver = 0;
+            int partCount = 0;
 
             for (int i = 0; i < startGridList.Count; i++)
             {
-                while (driver < participants.Count)
+                while (partCount < participants.Count)
                 {
                     foreach (var startGrid in startGridList)
                     {
                         if (startGrid.Left == null)
                         {
-                            startGrid.Left = participants[driver];
-                            driver++;
+                            startGrid.Left = participants[partCount];
+                            partCount++;
                         }
                         if (startGrid.Right == null)
                         {
-                            startGrid.Right = participants[driver];
-                            driver++;
+                            startGrid.Right = participants[partCount];
+                            partCount++;
                         }
                         else
                         {
@@ -87,5 +94,40 @@ namespace Controller
                 }
             }
         }
+
+
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            var currentSection = Track.Sections.First;
+
+            for (int i = 0; i < Track.Sections.Count; i++)
+            {
+                if (GetSectionData(currentSection.Value).Left != null)
+                {
+
+                    GetSectionData(currentSection.Value).DistanceLeft = GetSectionData(currentSection.Value).DistanceLeft - calculateDistanceForParticipant(GetSectionData(currentSection.Value).Left);
+
+                    if (GetSectionData(currentSection.Value).DistanceLeft < 0 && GetSectionData(currentSection.Next.Value).Left == null)
+                    {
+                        GetSectionData(currentSection.Next.Value).Left = GetSectionData(currentSection.Value).Left;
+                        GetSectionData(currentSection.Value).Left = null;
+
+                    }
+                }
+                DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
+                currentSection = currentSection.Next;
+            }
+        }
+
+        public int calculateDistanceForParticipant(IParticipant driver)
+        {
+            return driver.Equipment.Performance / driver.Equipment.Quality * driver.Equipment.Speed;
+        }
+
+        public void Start()
+        {
+            timer.Enabled = true;
+        }
+
     }
 }

@@ -13,5 +13,7 @@ namespace Model
         public TeamColors GetTeamColor { get; set; }
 
         public enum TeamColors { Red, Green, Yellow, Grey, Blue };
+
+        public int GetMovementSpeed();
     }
 }

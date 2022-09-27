@@ -20,5 +20,10 @@ namespace Model
             this.Equipment = Equipment;
             this.GetTeamColor = Teamcolors;
         }
+
+        public int GetMovementSpeed()
+        {
+            return Equipment.Performance * Equipment.Speed;
+        }
     }
 }

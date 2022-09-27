@@ -237,7 +237,6 @@ namespace Model
             return strings;
         }
 
-
         public static void OnDriversChanged(Object source, DriversChangedEventArgs e)
         {
             Console.Clear();
