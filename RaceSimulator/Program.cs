@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Controller;
-using Model;
+﻿using Controller;
+using System;
+using System.Threading;
 
-namespace RaceSimulator
+namespace ConsoleEdition
 {
-    public class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Data.Initialize();
-            Visualization.Initialize();
+            Data.NextRaceEvent += Visualization.OnNextRaceEvent;
+            Data.NextRace();
 
             for (; ; )
             {

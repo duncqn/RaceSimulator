@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static Model.SectionData;
-
-namespace Model
+﻿namespace Model
 {
-    public class Section : SectionData
+    public class Section
     {
-        public SectionTypes SectionType;
-        public enum SectionTypes { Straight, LeftCorner, RightCorner, StartGrid, Finish };
+        public SectionTypes SectionType { get; set; }
+
+        public Section(SectionTypes sectionType)
+        {
+            SectionType = sectionType;
+        }
+
+        public override string ToString()
+        {
+            return SectionType.ToString();
+        }
     }
 }

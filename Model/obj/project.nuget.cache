@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "S9iOTZUB56tpt6R4nitayvAW9r0Dy1L/LSOGiHR2HjUhY4LiePKGr99YD74SK7kEGpY7Z+aJX2WUfHVnSib5VA==",
+  "dgSpecHash": "HZuZcJesEWl1i3WoMnvIxrSljMM+b9VgoMJbFF7Dn+Rclh8YAv4PhLfiNXg7W8f0uf3BW1vFEWZDzyTbQIVw/g==",
   "success": true,
-  "projectFilePath": "/Users/duncan/Documents/GitHub/RaceSimulator/Model/Model.csproj",
+  "projectFilePath": "C:\\Users\\dunca\\RiderProjects\\RaceSimulator\\Model\\Model.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

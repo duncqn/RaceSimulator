@@ -1,248 +1,175 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Controller;
+﻿using Controller;
+using Model;
+using System;
+using System.Runtime.CompilerServices;
 
-namespace Model
+namespace ConsoleEdition
 {
+    public enum Direction
+    {
+        N,
+        E,
+        S,
+        W
+    }
+
     public static class Visualization
     {
-        public static void Initialize()
-        {
-            DrawTrack(Data.CurrentRace.Track);
-        }
+        private const int CursorStartPosX = 24;
+        private const int CursorStartPosY = 16;
+
+        private static int _cPosX;
+        private static int _cPosY;
+
+        private static Race _currentRace;
+        private static Direction _currentDirection;
 
         #region graphics
 
+        private static readonly string[] _horizontalFinish = { "xxxx", " 1# ", "2 # ", "xxxx" };
+        private static readonly string[] _horizontalStartGrid = { "xxxx", " 1] ", "2]  ", "xxxx" };
+        private static readonly string[] _cornerNe = { @" /xx", @"/1  ", @"x 2 ", @"x  /" };
+        private static readonly string[] _cornerNw = { @"xx\ ", @"  1\", @" 2 x", @"\  x" };
+        private static readonly string[] _cornerSe = { @"x  \", @"x 1 ", @"\2  ", @" \xx" };
+        private static readonly string[] _cornerSw = { @"/  x", @" 1 x", @"  2/", @"xx/ " };
+        private static readonly string[] _horizontalStraight = { "xxxx", "  1 ", " 2  ", "xxxx" };
+        private static readonly string[] _verticalStraight = { "x  x", "x2 x", "x 1x", "x  x" };
 
-        private static string[] _startHorizontal =
+        #endregion graphics
+
+        internal static string[] SectionTypeToGraphic(SectionTypes sectionType, Direction direction)
         {
-            "****",
-            " 1# ",
-            "2 # ",
-            "****"
-        };
-
-        private static readonly string[] _startVertical =
-        {
-            "*  *",
-            "*##*",
-            "*  *",
-            "*  *"
-        };
-
-        private static readonly string[] _leftCornerHorizontal =
-        {
-            @"/  |",
-            @"   |",
-            @"   /",
-            "**/ "
-        };
-
-        private static readonly string[] _RightCornerNorth =
-        {
-            @" /**",
-            @"/    ",
-            "|   ",
-            "|  |",
-        };
-
-        private static readonly string[] _rightCornerEast =
-        {
-
-            @"**\ ",
-            @"   \",
-            "   |",
-            "|  |"
-        };
-
-        private static readonly string[] _RightCornerWest =
-        {
-            @"|  \",
-            @"|   ",
-            @"\   ",
-            @" \**"
-        };
-
-        private static readonly string[] _straightHorizontal =
-        {
-            "****",
-            "    ",
-            "    ",
-            "****"
-        };
-
-
-        private static readonly string[] _straightVertical =
-        {
-            "|  |",
-            "|  |",
-            "|  |",
-            "|  |"
-        };
-
-        private static readonly string[] _finishHorizontal =
-        {
-            "****",
-            "  | ",
-            "  | ",
-            "****"
-        };
-
-        #endregion
-
-        private static void DrawSection(string[] sectionDrawing, int x, int y)
-        {
-            foreach (var item in sectionDrawing)
+            return sectionType switch
             {
-                Console.SetCursorPosition(x, y);
-                Console.Write(item);
-                y++;
-            }
+                SectionTypes.Straight => ((int)direction % 2) switch
+                {
+                    0 => _verticalStraight,
+                    1 => _horizontalStraight,
+                    _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+                },
+                SectionTypes.LeftCorner => (int)direction switch
+                {
+                    0 => _cornerNw,
+                    1 => _cornerSw,
+                    2 => _cornerSe,
+                    3 => _cornerNe,
+                    _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+                },
+                SectionTypes.RightCorner => (int)direction switch
+                {
+                    0 => _cornerNe,
+                    1 => _cornerNw,
+                    2 => _cornerSw,
+                    3 => _cornerSe,
+                    _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+                },
+                SectionTypes.StartGrid => _horizontalStartGrid,
+                SectionTypes.Finish => _horizontalFinish,
+                _ => throw new ArgumentOutOfRangeException(nameof(sectionType), sectionType, null)
+            };
         }
 
-        private static Track DrawTrack(Track track)
+        public static void OnNextRaceEvent(object sender, NextRaceEventArgs e)
         {
-            var sections = track.Sections;
-
-            var x = 0;
-            var y = 4;
-            var direction = 1;
-            var Row = Console.CursorTop;
-            const int Colum = 40;
-
-            foreach (var section in sections)
-            {
-                if (section.SectionType == Section.SectionTypes.StartGrid)
-                {
-                    var sectionStrings = ReplaceStartGridNumber(_startHorizontal, section.Left, section.Right);
-                    DrawSection(sectionStrings, Colum + x, Row + y);
-                }
-
-                if (section.SectionType == Section.SectionTypes.Straight)
-                {
-                    if (direction == 1 || direction == 3)
-                    {
-                        DrawSection(_straightHorizontal, Colum + x, Row + y);
-                    }
-
-                    if (direction == 0 || direction == 2)
-                    {
-                        DrawSection(_straightVertical, Colum + x, Row + y);
-                    }
-                }
-
-                else if (section.SectionType == Section.SectionTypes.LeftCorner)
-                {
-                    foreach (var item in _leftCornerHorizontal)
-                    {
-                        Console.SetCursorPosition(Colum + x, Row + y);
-                        Console.Write(item);
-                        y++;
-                    }
-
-                    direction--;
-                }
-
-                else if (section.SectionType == Section.SectionTypes.RightCorner)
-                {
-                    switch (direction)
-                    {
-                        case 1:
-                            DrawSection(_rightCornerEast, Colum + x, Row + y);
-                            direction++;
-                            break;
-                        case 2:
-                            DrawSection(_leftCornerHorizontal, Colum + x, Row + y);
-                            direction++;
-                            break;
-                        case 3:
-                            DrawSection(_RightCornerWest, Colum + x, Row + y);
-                            direction++;
-                            break;
-                        case 0:
-                            DrawSection(_RightCornerNorth, Colum + x, Row + y);
-                            direction++;
-                            break;
-                    }
-                }
-                else if (section.SectionType == Section.SectionTypes.Finish)
-                {
-                    if (direction == 1 || direction == 3)
-                    {
-                        DrawSection(_finishHorizontal, Colum + x, Row + y);
-                    }
-
-                    if (direction == 0 || direction == 2)
-                    {
-                        DrawSection(_straightVertical, Colum + x, Row + y);
-                    }
-                }
-
-                if (direction == 4)
-                {
-                    direction = 0;
-                }
-
-                if (direction == -1)
-                {
-                    direction = 3;
-                }
-
-                switch (direction)
-                {
-                    case 1:
-                        x += 4;
-                        break;
-                    case 2:
-                        y += 4;
-                        break;
-                    case 3:
-                        x -= 4;
-                        break;
-                    case 0:
-                        y -= 4;
-                        break;
-                }
-            }
-
-            return track;
+            Initialize(e.Race);
+            _currentRace.DriversChanged += OnDriversChanged;
+            DrawTrack(_currentRace.Track);
         }
 
-        private static string ReplaceNumber(this string text, string search, string replace)
+        public static void Initialize(Race race)
         {
-            int position = text.IndexOf(search, StringComparison.Ordinal);
-            if (position < 0)
-            {
-                return text;
-            }
-
-            return text.Substring(0, position) + replace + text.Substring(position + search.Length);
-        }
-
-        private static string[] ReplaceStartGridNumber(string[] inputStrings, IParticipant participantLeft,
-            IParticipant participantRight)
-        {
-            string[] strings = new string[inputStrings.Length];
-
-            string leftParticipant = participantLeft == null ? " " : participantLeft.Name.Substring(0, 1).ToUpper();
-            string rightParticipant = participantRight == null ? " " : participantRight.Name.Substring(0, 1).ToUpper();
-
-            for (int i = 0; i < strings.Length; i++)
-            {
-                strings[i] = inputStrings[i].ReplaceNumber("1", leftParticipant)
-                    .ReplaceNumber("2", rightParticipant);
-            }
-
-            return strings;
-        }
-
-        public static void OnDriversChanged(Object source, DriversChangedEventArgs e)
-        {
+            _currentRace = race;
+            _currentDirection = Direction.E;
             Console.Clear();
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine($"Track: {_currentRace.Track.Name}");
+        }
+
+        public static void DrawTrack(Track track)
+        {
+            _cPosX = CursorStartPosX;
+            _cPosY = CursorStartPosY;
+            foreach (Section trackSection in track.Sections)
+            {
+                DrawSingleSection(trackSection);
+            }
+        }
+
+        private static void DrawSingleSection(Section section)
+        {
+            string[] sectionStrings = ReplacePlaceHolders(
+                SectionTypeToGraphic(section.SectionType, _currentDirection),
+                _currentRace.GetSectionData(section).Left, _currentRace.GetSectionData(section).Right
+            );
+
+            int tempY = _cPosY;
+            foreach (string s in sectionStrings)
+            {
+                Console.SetCursorPosition(_cPosX, tempY);
+                Console.Write(s);
+                tempY++;
+            }
+
+            if (section.SectionType == SectionTypes.RightCorner)
+                _currentDirection = ChangeDirectionRight(_currentDirection);
+            else if (section.SectionType == SectionTypes.LeftCorner)
+                _currentDirection = ChangeDirectionLeft(_currentDirection);
+
+            ChangeCursorToNextPosition();
+        }
+
+        internal static Direction ChangeDirectionLeft(Direction d)
+        {
+            return (Direction)(((uint)d - 1) % 4);
+        }
+
+        internal static Direction ChangeDirectionRight(Direction d)
+        {
+            return (Direction)(((uint)d + 1) % 4);
+        }
+
+        private static void ChangeCursorToNextPosition()
+        {
+            switch (_currentDirection)
+            {
+                case Direction.N:
+                    _cPosY -= 4;
+                    break;
+
+                case Direction.E:
+                    _cPosX += 4;
+                    break;
+
+                case Direction.S:
+                    _cPosY += 4;
+                    break;
+
+                case Direction.W:
+                    _cPosX -= 4;
+                    break;
+            }
+        }
+
+        internal static string[] ReplacePlaceHolders(string[] inputStrings, IParticipant leftParticipant,
+            IParticipant rightParticipant)
+        {
+            string[] returnStrings = new string[inputStrings.Length];
+            string lP = leftParticipant == null ? " " :
+                leftParticipant.Equipment.IsBroken ? "X" : leftParticipant.Name.Substring(0, 1).ToUpper();
+            string rP = rightParticipant == null ? " " :
+                rightParticipant.Equipment.IsBroken ? "X" : rightParticipant.Name.Substring(0, 1).ToUpper();
+
+            for (int i = 0; i < returnStrings.Length; i++)
+            {
+                returnStrings[i] = inputStrings[i].Replace("1", lP).Replace("2", rP);
+            }
+
+            return returnStrings;
+        }
+
+        private static void OnDriversChanged(object sender, DriversChangedEventArgs e)
+        {
             DrawTrack(e.Track);
         }
-
-
     }
 }
