@@ -19,39 +19,21 @@ namespace Controller
         public Track Track { get; set; }
         public List<IParticipant> Participants { get; }
         public DateTime StartTime { get; set; }
-
-        private readonly Random _random;
         internal readonly Dictionary<Section, SectionData> Positions;
+        private Dictionary<IParticipant, int> _lapsCompleted;
+        private readonly Random _random;
         private readonly Timer _timer;
-        private const int TimerInterval = 200;
-
-        // keeping track of laps
+        private const int TimerInterval = 150;
         internal const int Laps = 3;
-
-        private Dictionary<IParticipant, int> _lapsDriven;
-
-        // list for finish order
         private readonly List<IParticipant> _finishOrder;
-
-        // section times
-
-        // lap times
         private Dictionary<IParticipant, DateTime> _participantTimeEachLap;
-        
-
-        // Race Length
         private DateTime _endTime;
 
-        // event for drivers changed positions
         public event EventHandler<DriversChangedEventArgs> DriversChanged;
-
-        // event for race finish
         public event EventHandler RaceFinished;
 
         public SectionData GetSectionData(Section section)
         {
-            // look for key section in dictionary, if exists, return sectiondata for key section.
-            // otherwise, create SectionData for section and return that object.
             if (!Positions.ContainsKey(section)) Positions.Add(section, new SectionData());
             return Positions[section];
         }
@@ -67,74 +49,44 @@ namespace Controller
             _timer = new Timer(TimerInterval);
             _timer.Elapsed += OnTimedEvent;
 
-            PlaceParticipantsOnStartGrid();
-            InitializeParticipantLaps();
-            RandomizeEquipment();
-        }
+            List<Section> startGridSections = Track.Sections.Where(trackSection => trackSection.SectionType == SectionTypes.StartGrid).ToList();
+            startGridSections.Reverse();
+            List<Section> startGrid = startGridSections;
+            
+            
+            //deelnemers plaatsen op de baan.
+            int participantsToPlace = 0;
+            if (Participants.Count >= startGrid.Count * 2)
+                participantsToPlace = startGrid.Count * 2;
+            else if (Participants.Count < startGrid.Count * 2)
+                participantsToPlace = Participants.Count;
 
-        private void InitializeParticipantLaps()
-        {
-            _lapsDriven = new Dictionary<IParticipant, int>();
+            bool side = false;
+            int StartGridIndex = 0;
+            for (int i = 0; i < participantsToPlace; i++)
+            {
+                PlaceParticipant(Participants[i], side, startGrid[StartGridIndex]);
+                side = !side;
+                if (i % 2 == 1)
+                    StartGridIndex++;
+            }
+            
+            //Equipment random maken voor de deelnemers
+            foreach (IParticipant participant in Participants)
+            {
+                participant.Equipment.Quality = _random.Next(6, 17);
+                participant.Equipment.Performance = _random.Next(8, 20);
+            }
+            
+            //rondes voor de deelnemers inladen.
+            _lapsCompleted = new Dictionary<IParticipant, int>();
             // fill dictionary
             foreach (IParticipant participant in Participants)
             {
-                _lapsDriven.Add(participant, -1); // participants start before the finish line, so the first time they drive over the finish, they're at lap 0
+                _lapsCompleted.Add(participant, -1);
             }
-        }
-
-        internal void InitializeParticipantTimeEachLap()
-        {
-            _participantTimeEachLap = new Dictionary<IParticipant, DateTime>();
-            foreach (IParticipant participant in Participants)
-            {
-                _participantTimeEachLap.Add(participant, StartTime); // first time element is starttime.
-            }
-        }
-
-        public void RandomizeEquipment()
-        {
-            foreach (IParticipant participant in Participants)
-            {
-                participant.Equipment.Performance = _random.Next(5, 16); //  5 <= performance <= 15
-                participant.Equipment.Quality = _random.Next(8, 21); // quality can be 1-20, but i don't generate really awful equipment
-            }
-        }
-
-        public void PlaceParticipantsOnStartGrid()
-        {
-            // create List of startgrids, from front to back
-            List<Section> startGrids = GetStartGrids();
-
-            // look at amount of participants and amount of start places.
-            int amountToPlace = 0;
-            if (Participants.Count >= startGrids.Count * 2)
-                amountToPlace = startGrids.Count * 2;
-            else if (Participants.Count < startGrids.Count * 2)
-                amountToPlace = Participants.Count;
-
-            bool side = false; // false is left, true is right
-            int currentStartGridIndex = 0;
-            for (int i = 0; i < amountToPlace; i++)
-            {
-                // place
-                PlaceParticipant(Participants[i], side, startGrids[currentStartGridIndex]);
-                // flip side
-                side = !side;
-                // up section index on every uneven number for i
-                if (i % 2 == 1)
-                    currentStartGridIndex++;
-            }
-        }
-
-        public List<Section> GetStartGrids()
-        {
-            // put all sections in list that have sectiontype StartGrid
-            List<Section> startGridSections = Track.Sections.Where(trackSection => trackSection.SectionType == SectionTypes.StartGrid).ToList();
-
-            // reverse list
-            startGridSections.Reverse();
-
-            return startGridSections;
+            
+            
         }
 
         public void PlaceParticipant(IParticipant p, bool side, Section section)
@@ -147,10 +99,29 @@ namespace Controller
 
         private void OnTimedEvent(object sender, ElapsedEventArgs e)
         {
-            // fix broken drivers at random
-            RandomizeEquipmentFixing();
-            // randomize IsBroken for pariticpants
-            RandomEquipmentBreaking();
+            foreach (IParticipant participant in Participants.Where(p => p.Equipment.IsBroken))
+            {
+                if (_random.NextDouble() < 0.06)
+                {
+                    participant.Equipment.IsBroken = false;
+                    // downgrade quality of equipment by 1, assure proper bounds
+                    if (participant.Equipment.Quality > 1)
+                        participant.Equipment.Quality--;
+                    // downgrade base speed of equipment by 1, assure proper bounds;
+                    if (participant.Equipment.Speed > 5)
+                        participant.Equipment.Speed--;
+                }
+            }
+
+            List<IParticipant> participantsOnTrack = Positions.Values.Where(a => a.Left != null).Select(a => a.Left).Concat(Positions.Values.Where(a => a.Right != null).Select(a => a.Right)).ToList();
+            foreach (IParticipant participant in participantsOnTrack)
+            {
+                double qualityChance = (11 - (participant.Equipment.Quality * 0.5)) * 0.0005;
+                if (_random.NextDouble() < qualityChance)
+                {
+                    participant.Equipment.IsBroken = true;
+                }
+            }
 
             // call method to change driverPositions.
             MoveParticipants(e.SignalTime);
@@ -165,40 +136,7 @@ namespace Controller
                 RaceFinished?.Invoke(this, new EventArgs());
             }
         }
-
-        private void RandomEquipmentBreaking()
-        {
-            // quality of a participant is 1 to 10; meaning a 0.1 to 0.01% chance of breaking.
-            List<IParticipant> participantsOnTrack =
-                Positions.Values.Where(a => a.Left != null).Select(a => a.Left).Concat(Positions.Values.Where(a => a.Right != null).Select(a => a.Right)).ToList();
-            foreach (IParticipant participant in participantsOnTrack)
-            {
-                double qualityChance = (11 - (participant.Equipment.Quality * 0.5)) * 0.0005;
-                if (_random.NextDouble() < qualityChance)
-                {
-                    participant.Equipment.IsBroken = true;
-                }
-            }
-        }
-
-        private void RandomizeEquipmentFixing()
-        {
-            foreach (IParticipant participant in Participants.Where(p => p.Equipment.IsBroken))
-            {
-                // chance is 6% of being fixed.
-                if (_random.NextDouble() < 0.06)
-                {
-                    participant.Equipment.IsBroken = false;
-                    // downgrade quality of equipment by 1, assure proper bounds
-                    if (participant.Equipment.Quality > 1)
-                        participant.Equipment.Quality--;
-                    // downgrade base speed of equipment by 1, assure proper bounds;
-                    if (participant.Equipment.Speed > 5)
-                        participant.Equipment.Speed--;
-                }
-            }
-        }
-
+        
         private void MoveParticipants(DateTime elapsedDateTime)
         {
             // Steps to take:
@@ -233,7 +171,6 @@ namespace Controller
 
             if (currentSectionData.DistanceLeft >= 100 && currentSectionData.DistanceRight >= 100)
             {
-                #region Both drivers ready to move
 
                 int freePlaces = FreePlacesLeftOnSectionData(nextSectionData);
                 if (freePlaces == 0)
@@ -250,7 +187,6 @@ namespace Controller
                 }
                 else
                 {
-                    // TODO: handle edge cases a little better when a choice must be made
                     if (currentSectionData.DistanceLeft >= currentSectionData.DistanceRight)
                     {
                         // prefer left
@@ -268,8 +204,6 @@ namespace Controller
                             MoveSingleParticipant(currentSection, nextSection, Side.Right, Side.Right, true, elapsedDateTime);
                     }
                 }
-
-                #endregion Both drivers ready to move
             }
             else if (currentSectionData.DistanceLeft >= 100)
             {
@@ -347,7 +281,7 @@ namespace Controller
                                 OnMoveUpdateLapsAndFinish(nextSectionData, Side.Left, elapsedDateTime);
                             break;
                     }
-                    // section time
+
                     currentSectionData.Right = null;
                     currentSectionData.DistanceRight = 0;
                     break;
@@ -369,7 +303,7 @@ namespace Controller
                                 OnMoveUpdateLapsAndFinish(nextSectionData, Side.Left, elapsedDateTime);
                             break;
                     }
-                    // section time
+                    
                     currentSectionData.Left = null;
                     currentSectionData.DistanceLeft = 0;
                     break;
@@ -394,17 +328,18 @@ namespace Controller
             return 0;
         }
 
-        public int GetLapsParticipant(IParticipant participant) => _lapsDriven[participant];
+        public int GetLapsParticipant(IParticipant participant) => _lapsCompleted[participant];
 
         internal void UpdateLap(IParticipant participant, DateTime elapsedDateTime)
         {
-            _lapsDriven[participant]++;
+            _lapsCompleted[participant]++;
             // write lap time, update time
-            if (_lapsDriven[participant] <= 0) return;
+            if (_lapsCompleted[participant] <= 0) return;
+            
             _participantTimeEachLap[participant] = elapsedDateTime;
         }
 
-        internal bool IsFinished(IParticipant participant) => _lapsDriven[participant] >= Laps;
+        internal bool IsFinished(IParticipant participant) => _lapsCompleted[participant] >= Laps;
 
         internal bool IsFinishSection(Section section)
         {
@@ -434,11 +369,17 @@ namespace Controller
         public List<IParticipant> GetFinishOrderParticipants() => _finishOrder;
 
         public TimeSpan GetRaceLength() => _endTime - StartTime;
-
+        
         public void Start()
         {
-            StartTime = DateTime.Now;
-            InitializeParticipantTimeEachLap();
+            StartTime = DateTime.Now; 
+            
+            _participantTimeEachLap = new Dictionary<IParticipant, DateTime>();
+            foreach (IParticipant participant in Participants)
+            {
+                _participantTimeEachLap.Add(participant, StartTime); // first time element is starttime.
+            }
+            
             _timer.Start();
         }
 

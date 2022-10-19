@@ -27,7 +27,7 @@ namespace Controller
 
         private static void AddTracks()
         {
-            Competition.Tracks.Enqueue(new Track("Dronten", new[]
+            Competition.Tracks.Enqueue(new Track("Ovaal", new[]
             {
                 SectionTypes.StartGrid,
                 SectionTypes.StartGrid,
@@ -47,6 +47,19 @@ namespace Controller
                 SectionTypes.RightCorner,
                 SectionTypes.Straight,
                 SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Finish,
+            }));
+            
+            Competition.Tracks.Enqueue(new Track("Recht", new[]
+            {
+                SectionTypes.StartGrid,
+                SectionTypes.StartGrid,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
                 SectionTypes.Straight,
                 SectionTypes.Finish,
             }));

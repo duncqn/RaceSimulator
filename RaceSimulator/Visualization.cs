@@ -82,7 +82,6 @@ namespace ConsoleEdition
             _currentDirection = Direction.E;
             Console.Clear();
             Console.SetCursorPosition(0, 0);
-            Console.WriteLine($"Track: {_currentRace.Track.Name}");
         }
 
         public static void DrawTrack(Track track)
