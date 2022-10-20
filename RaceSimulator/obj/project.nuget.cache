@@ -1,8 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "IUj2WEvxwd6WDYZT4uM7ugSAyNzO2RRcbduD/MHbCF1UboLHdlVQaarP/Kw5YMoWqDrOzFr5tNT7cbawsWLVhA==",
+  "dgSpecHash": "plzEWkaQAcUDBf7DSjnfIGoc0lVv31WdpSW62Egf8nm2hHbLEp7k3z8TOzLt0pegfK3iboqdCD4nt369W3FTCg==",
   "success": true,
   "projectFilePath": "C:\\Users\\dunca\\Documents\\GitHub\\RaceSimulator\\RaceSimulator\\RaceSimulator.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\dunca\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\dunca\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
+    "C:\\Users\\dunca\\.nuget\\packages\\microsoft.win32.systemevents\\7.0.0-rc.2.22472.3\\microsoft.win32.systemevents.7.0.0-rc.2.22472.3.nupkg.sha512",
+    "C:\\Users\\dunca\\.nuget\\packages\\system.drawing.common\\7.0.0-rc.2.22472.3\\system.drawing.common.7.0.0-rc.2.22472.3.nupkg.sha512",
+    "C:\\Users\\dunca\\.nuget\\packages\\system.drawing.primitives\\4.3.0\\system.drawing.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\dunca\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",
+    "C:\\Users\\dunca\\.nuget\\packages\\system.runtime.extensions\\4.3.0\\system.runtime.extensions.4.3.0.nupkg.sha512"
+  ],
   "logs": []
 }
