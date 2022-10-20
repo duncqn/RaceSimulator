@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UbrYXrBJ8Js1y++TK1qWP66mERKMyhIDAjuUDffMVYT5DuQPCk478ikt4r4oWqeYylIxQIvgagrmu9QTPZtpvw==",
+  "dgSpecHash": "dku+dbnCRFUdJA07n3uVzZy5P7lHLDL70VHmGbWzgx+1Ro71V8PO7WOIQC9hUqfkl8dMIHtdogdV1hxANKp8SA==",
   "success": true,
-  "projectFilePath": "/Users/duncan/Documents/GitHub/RaceSimulator/Controller/Controller.csproj",
+  "projectFilePath": "C:\\Users\\dunca\\Documents\\GitHub\\RaceSimulator\\Controller\\Controller.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

@@ -1,7 +1,5 @@
 ﻿using Controller;
 using Model;
-using System;
-using System.Runtime.CompilerServices;
 
 namespace ConsoleEdition
 {
@@ -162,7 +160,6 @@ namespace ConsoleEdition
             {
                 returnStrings[i] = inputStrings[i].Replace("1", lP).Replace("2", rP);
             }
-
             return returnStrings;
         }
 
