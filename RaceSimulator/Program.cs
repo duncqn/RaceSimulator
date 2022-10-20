@@ -12,10 +12,18 @@ namespace ConsoleEdition
             Data.NextRaceEvent += Visualization.OnNextRaceEvent;
             Data.NextRace();
 
-            for (; ; )
+            for (;;)
             {
                 Thread.Sleep(100);
             }
+        }
+        
+        public static void InitializeNextRace(object? Sender, EventArgs E)
+        {
+            Data.CurrentRace.CleanUp();
+            Console.Clear();
+            Data.NextRace();
+            Visualization.Initialize(Data.CurrentRace);
         }
     }
 }
