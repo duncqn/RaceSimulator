@@ -13,15 +13,18 @@ namespace Controller
     public class Race
     {
         public Track Track { get;}
+        public DateTime StartTime { get; set; }
         public List<IParticipant> Participants { get; }
         internal readonly Dictionary<Section, SectionData> Positions;
         private Dictionary<IParticipant, int> _lapsCompleted;
         private readonly Random _random;
         private readonly Timer _timer;
-        private const int TimerInterval = 100;
-        internal const int Laps = 1;
+        private const int TimerInterval = 300;
+        internal const int Laps = 2;
 
         public event EventHandler<DriversChangedEventArgs> DriversChanged;
+
+
         public event EventHandler RaceFinished;
 
         public SectionData GetSectionData(Section section)
@@ -120,6 +123,7 @@ namespace Controller
                 if (_random.NextDouble() < qualityChance)
                 {
                     participant.Equipment.IsBroken = true;
+                    Data.Competition.timesBrokenDown[participant]++;
                 }
             }
         }
@@ -307,6 +311,7 @@ namespace Controller
         public void Start()
         {
             _timer.Start();
+            StartTime = DateTime.Now;
         }
 
         public void CleanUp()

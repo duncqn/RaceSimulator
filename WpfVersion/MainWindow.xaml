@@ -1,22 +1,26 @@
-﻿<Window x:Class="WpfVersion.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfVersion"
+        xmlns:Model="clr-namespace:Model;assembly=Model" x:Class="WpfVersion.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Background="#FF6C6D6D">
+        Title="RaceSimulator" Height="1080" Width="1920" Background="Snow">
+    <Window.DataContext>
+        <local:DataContext/>
+    </Window.DataContext>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="109*"/>
-            <RowDefinition Height="108*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="227*"/>
-            <ColumnDefinition Width="173*"/>
-        </Grid.ColumnDefinitions>
-        <Image Margin="3,3,1,1" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-        <Image Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="17,-16,0,0" VerticalAlignment="Top" Width="100"/>
-
+        <DockPanel LastChildFill="False">
+            <Label DockPanel.Dock="Top" Content="{Binding TrackName}" FontWeight="Bold" Foreground="Black"/>
+                <Menu x:Name="menu" DockPanel.Dock="Top" VerticalAlignment="Top" Height="20">
+                    <MenuItem Header="Menu">
+                        <Button x:Name="_1" Click = "MenuItem_StatRace_Click" Content="Race Statistics"/>
+                        <Button x:Name="_2" Click="MenuItem_StatPar_Click" Content="Participant Statistics"/>
+                        <Button x:Name="Exit" Click="MenuItem_Exit_Click" Content="Exit"/>
+                    </MenuItem>
+                </Menu>
+            </DockPanel>
+        <Image x:Name="Tekening" Stretch="Fill" Margin="0,65,0,-43"/>
     </Grid>
 </Window>

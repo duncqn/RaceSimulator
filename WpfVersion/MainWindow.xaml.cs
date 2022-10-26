@@ -1,28 +1,77 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Threading;
+using Controller;
+using Model;
 
 namespace WpfVersion
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+
+        private StatRace sr = new StatRace();
+        private StatPar sp = new StatPar();
+
+        public DataContext dataContext = new DataContext();
+
         public MainWindow()
         {
+            Initialize();
             InitializeComponent();
+        }
+
+        private void Initialize()
+        {
+            Data.Initialize();
+            Data.NextRace();
+            VisualisationWpf.Initialize();
+            Events();
+            Data.CurrentRace.Start();
+        }
+
+        private void InitializeNextRace(object? sender, EventArgs args)
+        {
+            Cache.ClearCache();
+            Data.CurrentRace.CleanUp();
+            Data.NextRace();
+            VisualisationWpf.Initialize();
+            Events();
+            Data.CurrentRace.Start();
+        }
+
+        private void Events()
+        {
+            Data.CurrentRace.DriversChanged += DriversChanged;
+            Data.CurrentRace.RaceFinished += InitializeNextRace;
+            Data.CurrentRace.DriversChanged += dataContext.OnDriversChanged;
+        }
+
+        private void DriversChanged(object? sender, DriversChangedEventArgs e)
+        {
+            Tekening.Dispatcher.BeginInvoke(
+                DispatcherPriority.Render,
+                new Action(() =>
+                {
+                    Tekening.Source = null;
+                    Tekening.Source = VisualisationWpf.DrawTrack(e.Track, (int)Width, (int)Height);
+                })
+            );
+        }
+
+        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            Application.Current.Shutdown();
+        }
+
+        private void MenuItem_StatRace_Click(object sender, RoutedEventArgs e)
+        {
+            sr.Show();
+        }
+
+        private void MenuItem_StatPar_Click(object sender, RoutedEventArgs e)
+        {
+            sp.Show();
         }
     }
 }

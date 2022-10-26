@@ -104,6 +104,51 @@
             "related": ".xml"
           }
         }
+      },
+      "Controller/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Model": "1.0.0",
+          "System.Drawing.Common": "7.0.0-rc.2.22472.3",
+          "System.Drawing.Primitives": "4.3.0"
+        },
+        "compile": {
+          "bin/placeholder/Controller.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Controller.dll": {}
+        }
+      },
+      "Model/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "System.Drawing.Common": "7.0.0-rc.2.22472.3",
+          "System.Drawing.Primitives": "4.3.0"
+        },
+        "compile": {
+          "bin/placeholder/Model.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Model.dll": {}
+        }
+      },
+      "RaceSimulator/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Controller": "1.0.0",
+          "Model": "1.0.0",
+          "System.Drawing.Common": "7.0.0-rc.2.22472.3",
+          "System.Drawing.Primitives": "4.3.0"
+        },
+        "compile": {
+          "bin/placeholder/RaceSimulator.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/RaceSimulator.dll": {}
+        }
       }
     }
   },
@@ -407,10 +452,28 @@
         "system.runtime.extensions.4.3.0.nupkg.sha512",
         "system.runtime.extensions.nuspec"
       ]
+    },
+    "Controller/1.0.0": {
+      "type": "project",
+      "path": "../Controller/Controller.csproj",
+      "msbuildProject": "../Controller/Controller.csproj"
+    },
+    "Model/1.0.0": {
+      "type": "project",
+      "path": "../Model/Model.csproj",
+      "msbuildProject": "../Model/Model.csproj"
+    },
+    "RaceSimulator/1.0.0": {
+      "type": "project",
+      "path": "../RaceSimulator/RaceSimulator.csproj",
+      "msbuildProject": "../RaceSimulator/RaceSimulator.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0-windows7.0": [
+      "Controller >= 1.0.0",
+      "Model >= 1.0.0",
+      "RaceSimulator >= 1.0.0",
       "System.Drawing.Common >= 7.0.0-rc.2.22472.3",
       "System.Drawing.Primitives >= 4.3.0"
     ]
@@ -447,7 +510,17 @@
       "frameworks": {
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\dunca\\Documents\\GitHub\\RaceSimulator\\Controller\\Controller.csproj": {
+              "projectPath": "C:\\Users\\dunca\\Documents\\GitHub\\RaceSimulator\\Controller\\Controller.csproj"
+            },
+            "C:\\Users\\dunca\\Documents\\GitHub\\RaceSimulator\\Model\\Model.csproj": {
+              "projectPath": "C:\\Users\\dunca\\Documents\\GitHub\\RaceSimulator\\Model\\Model.csproj"
+            },
+            "C:\\Users\\dunca\\Documents\\GitHub\\RaceSimulator\\RaceSimulator\\RaceSimulator.csproj": {
+              "projectPath": "C:\\Users\\dunca\\Documents\\GitHub\\RaceSimulator\\RaceSimulator\\RaceSimulator.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

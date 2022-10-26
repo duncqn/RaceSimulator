@@ -10,15 +10,14 @@ namespace Model
         public string Name { get; set; }
         public int Points { get; set; }
         public IEquipment Equipment { get; set; }
-        public IParticipant.TeamColors GetTeamColor { get; set; }
-
+        public IParticipant.TeamColors TeamColor { get; set; }
 
         public Driver(String Name, int Points, IEquipment Equipment, IParticipant.TeamColors Teamcolors)
         {
             this.Name = Name;
             this.Points = Points;
             this.Equipment = Equipment;
-            this.GetTeamColor = Teamcolors;
+            this.TeamColor = Teamcolors;
         }
 
         public int GetMovementSpeed()

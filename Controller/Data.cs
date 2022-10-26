@@ -1,5 +1,7 @@
 ﻿using Model;
 using System;
+using static Model.Track;
+using System.Drawing;
 
 namespace Controller
 {
@@ -27,41 +29,50 @@ namespace Controller
 
         private static void AddTracks()
         {
-            Competition.Tracks.Enqueue(new Track("Ovaal", new[]
-            {
+            Competition.Tracks.Enqueue(new Track("Ik haat deze racesim", new[]
+            {           
                 SectionTypes.StartGrid,
                 SectionTypes.StartGrid,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
                 SectionTypes.Finish,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
             }));
-            
-            Competition.Tracks.Enqueue(new Track("Recht", new[]
+
+            Competition.Tracks.Enqueue(new Track("3", new[]
             {
                 SectionTypes.StartGrid,
                 SectionTypes.StartGrid,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
                 SectionTypes.Finish,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
             }));
         }
 

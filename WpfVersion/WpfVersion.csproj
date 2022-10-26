@@ -13,10 +13,10 @@
       <None Remove="afbeeldingen\carGrey.png" />
       <None Remove="afbeeldingen\carRed.png" />
       <None Remove="afbeeldingen\carYellow.png" />
-      <None Remove="afbeeldingen\_cornerNe.png" />
-      <None Remove="afbeeldingen\_cornerNw.png" />
-      <None Remove="afbeeldingen\_cornerSe.png" />
-      <None Remove="afbeeldingen\_cornerSw.png" />
+      <None Remove="afbeeldingen\leftCornerN.png" />
+      <None Remove="afbeeldingen\rightCornerE.png" />
+      <None Remove="afbeeldingen\rightCornerN.png" />
+      <None Remove="afbeeldingen\rightCornerW.png" />
       <None Remove="afbeeldingen\_horizontalFinish.png" />
       <None Remove="afbeeldingen\_horizontalStartGrid.png" />
       <None Remove="afbeeldingen\_horizontalStraight.png" />
@@ -29,14 +29,25 @@
       <Content Include="afbeeldingen\carGrey.png" />
       <Content Include="afbeeldingen\carRed.png" />
       <Content Include="afbeeldingen\carYellow.png" />
-      <Content Include="afbeeldingen\_cornerNe.png" />
-      <Content Include="afbeeldingen\_cornerNw.png" />
-      <Content Include="afbeeldingen\_cornerSe.png" />
-      <Content Include="afbeeldingen\_cornerSw.png" />
+      <Content Include="afbeeldingen\rightCornerN.png" />
+      <Content Include="afbeeldingen\rightCornerE.png" />
+      <Content Include="afbeeldingen\leftCornerN.png" />
+      <Content Include="afbeeldingen\rightCornerW.png" />
       <Content Include="afbeeldingen\_horizontalFinish.png" />
       <Content Include="afbeeldingen\_horizontalStartGrid.png" />
       <Content Include="afbeeldingen\_horizontalStraight.png" />
       <Content Include="afbeeldingen\_verticalStraight.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.Drawing.Common" Version="7.0.0-rc.2.22472.3" />
+      <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Controller\Controller.csproj" />
+      <ProjectReference Include="..\Model\Model.csproj" />
+      <ProjectReference Include="..\RaceSimulator\RaceSimulator.csproj" />
     </ItemGroup>
 
 </Project>

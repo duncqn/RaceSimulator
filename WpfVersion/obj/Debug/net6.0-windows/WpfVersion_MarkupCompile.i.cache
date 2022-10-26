@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\Users\dunca\Documents\GitHub\RaceSimulator\WpfVersion\App.xaml
-11407045341
-13-1944020333
-61257728230
-195-1578121781
-MainWindow.xaml;
+3219912440
+131353518801
+101036413260
+198930551008
+MainWindow.xaml;StatPar.xaml;StatRace.xaml;
 
-False
+True
 

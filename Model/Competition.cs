@@ -8,11 +8,19 @@ namespace Model
     {
         public List<IParticipant> Participants { get; set; }
         public Queue<Track> Tracks { get; set; }
+        public Dictionary<IParticipant, string> totalRaceTime;
+        public Dictionary<IParticipant, int> points;
+        public Dictionary<IParticipant, string> equipment;
+        public Dictionary<IParticipant, int> timesBrokenDown;
 
         public Competition()
         {
             Participants = new List<IParticipant>();
             Tracks = new Queue<Track>();
+            totalRaceTime = new Dictionary<IParticipant, string>();
+            points = new Dictionary<IParticipant, int>();
+            equipment = new Dictionary<IParticipant, string>();
+            timesBrokenDown = new Dictionary<IParticipant, int>();
         }
 
         public Track NextTrack()

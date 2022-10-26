@@ -9,7 +9,7 @@ namespace ConsoleEdition
         private static void Main(string[] args)
         {
             Data.Initialize();
-            Data.NextRaceEvent += Visualization.OnNextRaceEvent;
+            Data.NextRaceEvent += Visualisation.OnNextRaceEvent;
             Data.NextRace();
 
             for (;;)
@@ -23,7 +23,7 @@ namespace ConsoleEdition
             Data.CurrentRace.CleanUp();
             Console.Clear();
             Data.NextRace();
-            Visualization.Initialize(Data.CurrentRace);
+            Visualisation.Initialize(Data.CurrentRace);
         }
     }
 }

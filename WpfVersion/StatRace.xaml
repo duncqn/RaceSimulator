@@ -1,0 +1,30 @@
+﻿<Window x:Class="WpfVersion.StatRace"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfVersion"
+        mc:Ignorable="d"
+        Title="StatRace" Height="450" Width="800">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="0">
+                <Label DockPanel.Dock="Top" Content="p" />
+                <ListView Margin="10" ItemsSource="{Binding Participants}" />
+            </DockPanel>
+            <DockPanel Grid.Column="1">
+                <Label DockPanel.Dock="Top" Content="fastest lap" />
+                <ListView Margin="10" ItemsSource="{Binding FastestLapList}" />
+            </DockPanel>
+            <DockPanel Grid.Column="2">
+                <Label DockPanel.Dock="Top" Content="Lap time" />
+                <ListView Margin="10" ItemsSource="{Binding LapTimeList}" />
+            </DockPanel>
+        </Grid>
+    </Grid>
+</Window>

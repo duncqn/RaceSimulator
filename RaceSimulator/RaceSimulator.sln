@@ -9,9 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "..\Model\Model.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Controller", "..\Controller\Controller.csproj", "{936699AC-EB19-42DB-B604-05883E74F899}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControllerTest", "..\ControllerTest\ControllerTest.csproj", "{4A4B941F-B7C2-4670-89F7-7DBB788D5789}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControllerTest", "..\ControllerTest\ControllerTest.csproj", "{4A4B941F-B7C2-4670-89F7-7DBB788D5789}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfVersion", "..\WpfVersion\WpfVersion.csproj", "{84906C95-B92A-441F-AD5B-1839FC369323}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfVersion", "..\WpfVersion\WpfVersion.csproj", "{84906C95-B92A-441F-AD5B-1839FC369323}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A03264EB-BA6E-4049-B2BB-E3546BBFCA03}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
