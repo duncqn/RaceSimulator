@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:WpfVersion"
         mc:Ignorable="d"
         Title="StatRace" Height="450" Width="800">
+    <Window.DataContext>
+        <local:DataContext/>
+    </Window.DataContext>
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -13,17 +16,13 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <DockPanel Grid.Column="0">
-                <Label DockPanel.Dock="Top" Content="p" />
-                <ListView Margin="10" ItemsSource="{Binding Participants}" />
-            </DockPanel>
             <DockPanel Grid.Column="1">
-                <Label DockPanel.Dock="Top" Content="fastest lap" />
-                <ListView Margin="10" ItemsSource="{Binding FastestLapList}" />
+                <Label DockPanel.Dock="Top" Content="{Binding StartTime}" Foreground="Black"/>
+
             </DockPanel>
-            <DockPanel Grid.Column="2">
-                <Label DockPanel.Dock="Top" Content="Lap time" />
-                <ListView Margin="10" ItemsSource="{Binding LapTimeList}" />
+            <DockPanel Grid.Column="0">
+                <Label DockPanel.Dock="Top" Content="Races in de competition:" />
+                <ListView Margin="10" ItemsSource="{Binding NextTrack, Mode=OneWay}" />
             </DockPanel>
         </Grid>
     </Grid>

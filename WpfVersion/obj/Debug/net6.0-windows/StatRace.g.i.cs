@@ -53,7 +53,7 @@ namespace WpfVersion {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/WpfVersion;V1.0.0.0;component/statrace.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/WpfVersion;component/statrace.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\StatRace.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

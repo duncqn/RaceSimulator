@@ -17,8 +17,6 @@ public static class VisualisationWpf
 
     public static void Initialize()
     {
-       // Data.CurrentRace.ParticipantLap += Competition.ParticipantLap;
-        //Data.CurrentRace.ParticipantFinish += Competition.ParticipantFinish;
     }
 
     #region graphics

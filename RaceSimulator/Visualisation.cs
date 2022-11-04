@@ -78,8 +78,9 @@ namespace ConsoleEdition
         {
             _currentRace = race;
             _currentDirection = Direction.E;
-            Console.Clear();
+            //Console.Clear();
             Console.SetCursorPosition(0, 0);
+            Data.CurrentRace.RaceFinished += Program.InitializeNextRace;
         }
 
         public static void DrawTrack(Track track)

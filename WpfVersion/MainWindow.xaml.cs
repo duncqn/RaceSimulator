@@ -18,6 +18,9 @@ namespace WpfVersion
         {
             Initialize();
             InitializeComponent();
+            DataContext = dataContext;
+            sp.DataContext = dataContext;
+            sr.DataContext = dataContext;
         }
 
         private void Initialize()
@@ -57,6 +60,7 @@ namespace WpfVersion
                 })
             );
         }
+
 
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
         {

@@ -49,7 +49,7 @@ namespace Controller
                 SectionTypes.RightCorner,
             }));
 
-            Competition.Tracks.Enqueue(new Track("3", new[]
+            Competition.Tracks.Enqueue(new Track("lange ovaal", new[]
             {
                 SectionTypes.StartGrid,
                 SectionTypes.StartGrid,
@@ -74,11 +74,44 @@ namespace Controller
                 SectionTypes.Straight,
                 SectionTypes.RightCorner,
             }));
+            Competition.Tracks.Enqueue(new Track("lange ovaal 2", new[]
+            {
+                SectionTypes.StartGrid,
+                SectionTypes.StartGrid,
+                SectionTypes.Finish,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+            }));
+            
+                foreach (var t in Competition.Tracks)
+                { 
+                    Competition.tracklist.Add(t.Name);
+                }
         }
 
         public static void NextRace()
         {
             CurrentRace?.CleanUp();
+            Competition.timesBrokenDown.Clear();
+            CurrentRace?._lapsCompleted.Clear();
+            Competition.equipment.Clear();
             Track currentTrack = Competition.NextTrack();
             if (currentTrack != null)
             {

@@ -20,7 +20,6 @@ namespace ConsoleEdition
         
         public static void InitializeNextRace(object? Sender, EventArgs E)
         {
-            Data.CurrentRace.CleanUp();
             Console.Clear();
             Data.NextRace();
             Visualisation.Initialize(Data.CurrentRace);

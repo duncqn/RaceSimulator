@@ -1,5 +1,6 @@
 ﻿using Model;
 using System.Timers;
+using System.Xml;
 using Timer = System.Timers.Timer;
 
 namespace Controller
@@ -16,10 +17,10 @@ namespace Controller
         public DateTime StartTime { get; set; }
         public List<IParticipant> Participants { get; }
         internal readonly Dictionary<Section, SectionData> Positions;
-        private Dictionary<IParticipant, int> _lapsCompleted;
+        public Dictionary<IParticipant, int> _lapsCompleted;
         private readonly Random _random;
         private readonly Timer _timer;
-        private const int TimerInterval = 300;
+        private const int TimerInterval = 100;
         internal const int Laps = 2;
 
         public event EventHandler<DriversChangedEventArgs> DriversChanged;
@@ -45,9 +46,11 @@ namespace Controller
             Positions = new Dictionary<Section, SectionData>();
             _lapsCompleted = new Dictionary<IParticipant, int>();
 
+            AddItemsToDictionairy(participants);
+
             _timer = new Timer(TimerInterval);
             _timer.Elapsed += OnTimedEvent;
-            
+
             bool side = false;
             int StartGridIndex = 0;
             int participantsToPlace = 0;
@@ -81,6 +84,16 @@ namespace Controller
             }
         }
 
+        public void AddItemsToDictionairy(List<IParticipant> participants)
+        {
+            foreach (IParticipant p in participants)
+            {
+                Data.Competition.timesBrokenDown.Add(p, 0);
+                Data.Competition.equipment.Add(p,0);
+                
+            }
+        }
+
         public void PlaceParticipantOnTrack(IParticipant p, bool side, Section section)
         {
             if (side)
@@ -91,6 +104,11 @@ namespace Controller
 
         private void OnTimedEvent(object sender, ElapsedEventArgs e)
         {
+            RandomizeEquipmentFixing();
+
+            RandomEquipmentBreaking();
+
+
 
             MoveAllParticipants();
             DriversChanged?.Invoke(this, new DriversChangedEventArgs(Data.CurrentRace.Track));
@@ -99,24 +117,31 @@ namespace Controller
             {
                 RaceFinished?.Invoke(this, new EventArgs());
             }
+        }
 
-            foreach (IParticipant participant in Participants)
+        private void RandomizeEquipmentFixing()
+        {
+            foreach (IParticipant participant in Participants.Where(p => p.Equipment.IsBroken))
             {
-                if (participant.Equipment.IsBroken)
+                // chance is 6% of being fixed.
+                if (_random.NextDouble() < 0.06)
                 {
-                    if (_random.NextDouble() < 0.10)
-                    {
-                        participant.Equipment.IsBroken = false;
-                        if (participant.Equipment.Quality > 2)
-                            participant.Equipment.Quality--;
-                        if (participant.Equipment.Speed > 3)
-                            participant.Equipment.Speed--;
-                    }
+                    participant.Equipment.IsBroken = false;
+                    // downgrade quality of equipment by 1, assure proper bounds
+                    if (participant.Equipment.Quality > 1)
+                        participant.Equipment.Quality--;
+                    // downgrade base speed of equipment by 1, assure proper bounds;
+                    if (participant.Equipment.Speed > 5)
+                        participant.Equipment.Speed--;
                 }
             }
-            
-            List<IParticipant> participantsOnTrack = Positions.Values.Where(a => a.Left != null).Select(a => a.Left)
-                .Concat(Positions.Values.Where(a => a.Right != null).Select(a => a.Right)).ToList();
+        }
+
+        private void RandomEquipmentBreaking()
+        {
+            // quality of a participant is 1 to 10; meaning a 0.1 to 0.01% chance of breaking.
+            List<IParticipant> participantsOnTrack =
+                Positions.Values.Where(a => a.Left != null).Select(a => a.Left).Concat(Positions.Values.Where(a => a.Right != null).Select(a => a.Right)).ToList();
             foreach (IParticipant participant in participantsOnTrack)
             {
                 double qualityChance = (11 - (participant.Equipment.Quality * 0.5)) * 0.0005;
@@ -219,7 +244,13 @@ namespace Controller
             }
         }
 
-        public int GetSpeedFromParticipant(IParticipant iParticipant) => Convert.ToInt32(Math.Ceiling(0.1 * (iParticipant.Equipment.Speed * 0.5) * iParticipant.Equipment.Performance + 18));
+        public int GetSpeedFromParticipant(IParticipant iParticipant)
+        {
+            var speed = Convert.ToInt32(
+                Math.Ceiling(0.1 * (iParticipant.Equipment.Speed * 0.5) * iParticipant.Equipment.Performance + 18));
+            Data.Competition.equipment[iParticipant] = speed;
+            return speed;
+        }
 
         private void MoveSingleParticipant(Section currentSection, Section nextSection, Side start, Side end, bool correctOtherSide)
         {

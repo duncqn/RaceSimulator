@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="StatPar" Height="450" Width="800">
     <Window.DataContext>
-        <WpfVersion:DataContext/>
+        <local:DataContext/>
     </Window.DataContext>
     <Grid>
         <Grid>
@@ -18,8 +18,16 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <DockPanel Grid.Column="0">
-                <Label DockPanel.Dock="Top" Content="startime" />
-                <ListView Margin="10" ItemsSource="{Binding TrackName}" />
+                <Label DockPanel.Dock="Top" Content="Keren kapot" />
+                <ListView Margin="10" ItemsSource="{Binding TimesBrokenDown, Mode=OneWay}" />
+            </DockPanel>
+            <DockPanel Grid.Column="1">
+                <Label DockPanel.Dock="Top" Content="Laps" />
+                <ListView Margin="10" ItemsSource="{Binding Lap, Mode=OneWay}" />
+            </DockPanel>
+            <DockPanel Grid.Column="2">
+                <Label DockPanel.Dock="Top" Content="Speed" />
+                <ListView Margin="10" ItemsSource="{Binding Equipment, Mode=OneWay}" />
             </DockPanel>
         </Grid>
     </Grid>
