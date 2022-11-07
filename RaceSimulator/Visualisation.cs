@@ -78,7 +78,6 @@ namespace ConsoleEdition
         {
             _currentRace = race;
             _currentDirection = Direction.E;
-            //Console.Clear();
             Console.SetCursorPosition(0, 0);
             Data.CurrentRace.RaceFinished += Program.InitializeNextRace;
         }

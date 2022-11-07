@@ -16,16 +16,16 @@ namespace Controller
         public Track Track { get;}
         public DateTime StartTime { get; set; }
         public List<IParticipant> Participants { get; }
-        internal readonly Dictionary<Section, SectionData> Positions;
+        public readonly Dictionary<Section, SectionData> Positions;
         public Dictionary<IParticipant, int> _lapsCompleted;
-        private readonly Random _random;
-        private readonly Timer _timer;
-        private const int TimerInterval = 100;
-        internal const int Laps = 2;
+        
+        public readonly Random _random;
+        public readonly Timer _timer;
+        
+        private const int TimerInterval = 500;
+        internal const int Laps = 2; //aantal laps -1 omdat het bij 0 begint
 
         public event EventHandler<DriversChangedEventArgs> DriversChanged;
-
-
         public event EventHandler RaceFinished;
 
         public SectionData GetSectionData(Section section)
@@ -89,7 +89,7 @@ namespace Controller
             foreach (IParticipant p in participants)
             {
                 Data.Competition.timesBrokenDown.Add(p, 0);
-                Data.Competition.equipment.Add(p,0);
+                Data.Competition.speed.Add(p,0);
                 
             }
         }
@@ -102,15 +102,12 @@ namespace Controller
                 GetSectionData(section).Left = p;
         }
 
-        private void OnTimedEvent(object sender, ElapsedEventArgs e)
+        public void OnTimedEvent(object sender, ElapsedEventArgs e)
         {
             RandomizeEquipmentFixing();
-
             RandomEquipmentBreaking();
-
-
-
             MoveAllParticipants();
+            
             DriversChanged?.Invoke(this, new DriversChangedEventArgs(Data.CurrentRace.Track));
 
             if (CheckRaceFinished())
@@ -119,27 +116,23 @@ namespace Controller
             }
         }
 
-        private void RandomizeEquipmentFixing()
+        public void RandomizeEquipmentFixing()
         {
             foreach (IParticipant participant in Participants.Where(p => p.Equipment.IsBroken))
             {
-                // chance is 6% of being fixed.
-                if (_random.NextDouble() < 0.06)
+                if (_random.NextDouble() < 0.05)
                 {
                     participant.Equipment.IsBroken = false;
-                    // downgrade quality of equipment by 1, assure proper bounds
                     if (participant.Equipment.Quality > 1)
                         participant.Equipment.Quality--;
-                    // downgrade base speed of equipment by 1, assure proper bounds;
                     if (participant.Equipment.Speed > 5)
                         participant.Equipment.Speed--;
                 }
             }
         }
 
-        private void RandomEquipmentBreaking()
+        public void RandomEquipmentBreaking()
         {
-            // quality of a participant is 1 to 10; meaning a 0.1 to 0.01% chance of breaking.
             List<IParticipant> participantsOnTrack =
                 Positions.Values.Where(a => a.Left != null).Select(a => a.Left).Concat(Positions.Values.Where(a => a.Right != null).Select(a => a.Right)).ToList();
             foreach (IParticipant participant in participantsOnTrack)
@@ -248,7 +241,7 @@ namespace Controller
         {
             var speed = Convert.ToInt32(
                 Math.Ceiling(0.1 * (iParticipant.Equipment.Speed * 0.5) * iParticipant.Equipment.Performance + 18));
-            Data.Competition.equipment[iParticipant] = speed;
+            Data.Competition.speed[iParticipant] = speed;
             return speed;
         }
 
@@ -309,14 +302,14 @@ namespace Controller
                 currentSectionData.DistanceRight = 99;
         }
         
-        internal void UpdateLap(IParticipant participant)
+        public void UpdateLap(IParticipant participant)
         {
             _lapsCompleted[participant]++;
         }
 
-        internal bool IsFinished(IParticipant participant) => _lapsCompleted[participant] >= Laps;
+        public bool IsFinished(IParticipant participant) => _lapsCompleted[participant] >= Laps;
 
-        internal bool CheckIfFinishSection(Section section)
+        public bool CheckIfFinishSection(Section section)
         {
             return section.SectionType == SectionTypes.Finish;
         }
@@ -337,7 +330,7 @@ namespace Controller
             }
         }
 
-        internal bool CheckRaceFinished() => Positions.Values.FirstOrDefault(a => a.Left != null || a.Right != null) == null;
+        public bool CheckRaceFinished() => Positions.Values.FirstOrDefault(a => a.Left != null || a.Right != null) == null;
         
         public void Start()
         {

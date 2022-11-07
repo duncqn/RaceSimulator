@@ -7,9 +7,8 @@ namespace Model
     public class Competition
     {
         public List<IParticipant> Participants { get; set; }
-        public Queue<Track> Tracks { get; set; }
-        public Dictionary<IParticipant, string> totalRaceTime;
-        public Dictionary<IParticipant, int> equipment;
+        public Queue<Track> Tracks { get;}
+        public Dictionary<IParticipant, int> speed;
         public Dictionary<IParticipant, int> timesBrokenDown;
         public List<string> tracklist;
 
@@ -17,8 +16,7 @@ namespace Model
         {
             Participants = new List<IParticipant>();
             Tracks = new Queue<Track>();
-            totalRaceTime = new Dictionary<IParticipant, string>();
-            equipment = new Dictionary<IParticipant, int>();
+            speed = new Dictionary<IParticipant, int>();
             timesBrokenDown = new Dictionary<IParticipant, int>();
             tracklist = new List<string>();
         }

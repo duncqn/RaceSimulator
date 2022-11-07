@@ -83,7 +83,6 @@ public static class VisualisationWpf
                        trackOnScreen(g,
                            participantsOnScreen(Cache.GetImageData(_startGridHorizontal, Track.Width, Track.Height),
                                 participant1, participant2));
-
                 }
 
                 if (section.SectionType == SectionTypes.Straight)

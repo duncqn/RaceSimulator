@@ -11,11 +11,7 @@ namespace WpfVersion
     public static class Cache
     {
         internal static Dictionary<string, Bitmap> IMGCache = new();
-
-        public static void Initialize()
-        {
-            IMGCache = new Dictionary<string, Bitmap>();
-        }
+        
         public static Bitmap GetImageData(string url, int width, int height)
         {
             if (url.Equals("Empty"))

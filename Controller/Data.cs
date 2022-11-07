@@ -7,8 +7,8 @@ namespace Controller
 {
     public static class Data
     {
-        public static Competition Competition { get; private set; }
-        public static Race CurrentRace { get; private set; }
+        public static Competition Competition { get; set; }
+        public static Race CurrentRace { get; set; }
 
         public static event EventHandler<NextRaceEventArgs> NextRaceEvent;
 
@@ -19,17 +19,17 @@ namespace Controller
             AddTracks();
         }
 
-        private static void AddParticipants()
+        public static void AddParticipants()
         {
-            Competition.Participants.Add(new Driver("Duncan", 0, new Car(19, 10, 20, false), IParticipant.TeamColors.Red));
-            Competition.Participants.Add(new Driver("Noa", 0, new Car(18, 10, 19, false), IParticipant.TeamColors.Green));
-            Competition.Participants.Add(new Driver("Michiel", 0, new Car(16, 10, 17, false), IParticipant.TeamColors.Blue));
-            Competition.Participants.Add(new Driver("Damian", 0, new Car(20, 10, 14, false), IParticipant.TeamColors.Yellow));
+            Competition.Participants.Add(new Driver("Duncan", new Car(19, 10, 20, false), IParticipant.TeamColors.Red));
+            Competition.Participants.Add(new Driver("Noa", new Car(18, 10, 19, false), IParticipant.TeamColors.Green));
+            Competition.Participants.Add(new Driver("Michiel",new Car(16, 10, 17, false), IParticipant.TeamColors.Blue));
+            Competition.Participants.Add(new Driver("Damian",new Car(20, 10, 14, false), IParticipant.TeamColors.Yellow));
         }
 
-        private static void AddTracks()
+        public static void AddTracks()
         {
-            Competition.Tracks.Enqueue(new Track("Ik haat deze racesim", new[]
+            Competition.Tracks.Enqueue(new Track("rondje", new[]
             {           
                 SectionTypes.StartGrid,
                 SectionTypes.StartGrid,
@@ -111,7 +111,7 @@ namespace Controller
             CurrentRace?.CleanUp();
             Competition.timesBrokenDown.Clear();
             CurrentRace?._lapsCompleted.Clear();
-            Competition.equipment.Clear();
+            Competition.speed.Clear();
             Track currentTrack = Competition.NextTrack();
             if (currentTrack != null)
             {

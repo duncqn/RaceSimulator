@@ -7,8 +7,6 @@ namespace Model
     {
         public string Name { get; set; }
         public LinkedList<Section> Sections { get; set; }
-        public Direction StartDirection { get; }
-        public Color Background { get; }
 
         public const int Width = 150;
         public const int Height = 150;
@@ -30,14 +28,6 @@ namespace Model
             }
 
             return sections;
-        }
-
-        public enum Direction
-        {
-            Up,
-            Left,
-            Down,
-            Right
         }
     }
 }
