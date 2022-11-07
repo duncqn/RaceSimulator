@@ -240,7 +240,7 @@ namespace Controller
         public int GetSpeedFromParticipant(IParticipant iParticipant)
         {
             var speed = Convert.ToInt32(
-                Math.Ceiling(0.1 * (iParticipant.Equipment.Speed * 0.5) * iParticipant.Equipment.Performance + 18));
+                Math.Ceiling(0.4 * (iParticipant.Equipment.Speed * 0.5) * iParticipant.Equipment.Performance + 18));
             Data.Competition.speed[iParticipant] = speed;
             return speed;
         }

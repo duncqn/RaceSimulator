@@ -59,6 +59,9 @@ public static class VisualisationWpf
 
     private static string _raceAutoRood =
         "C:\\Users\\dunca\\Documents\\GitHub\\RaceSimulator\\WpfVersion\\afbeeldingen\\carRed.png";
+    
+    private static string _carBroken =
+        "C:\\Users\\dunca\\Documents\\GitHub\\RaceSimulator\\WpfVersion\\afbeeldingen\\carBroken.png";
 
     #endregion
 
@@ -224,16 +227,34 @@ public static class VisualisationWpf
     {
         if (participant1 != null)
         {
-            ParticipantOnTrack(track,
-                Rotate90(Cache.GetImageData(TeamColor(participant1.TeamColor), 50, 50),
-                    (_actualDirection - 1) * 90), 15, 60);
+            if (!participant1.Equipment.IsBroken)
+            {
+                ParticipantOnTrack(track,
+                    Rotate90(Cache.GetImageData(TeamColor(participant1.TeamColor), 50, 50),
+                        (_actualDirection - 1) * 90), 15, 60);
+            }
+            else
+            {
+                ParticipantOnTrack(track,
+                    Rotate90(Cache.GetImageData(_carBroken, 50, 50),
+                        (_actualDirection - 1) * 90), 15, 60);
+            }
         }
 
         if (participant2 != null)
         {
-            ParticipantOnTrack(track,
-                Rotate90(Cache.GetImageData(TeamColor(participant2.TeamColor), 50, 50),
-                    (_actualDirection - 1) * 90), 60, 15);
+            if (!participant2.Equipment.IsBroken)
+            {
+                ParticipantOnTrack(track,
+                    Rotate90(Cache.GetImageData(TeamColor(participant2.TeamColor), 50, 50),
+                        (_actualDirection - 1) * 90), 60, 15);
+            }
+            else
+            {
+                ParticipantOnTrack(track,
+                    Rotate90(Cache.GetImageData(_carBroken, 50, 50),
+                        (_actualDirection - 1) * 90), 60, 15);
+            }
         }
 
         return track;
