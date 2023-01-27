@@ -11,11 +11,11 @@ namespace Model
         public IEquipment Equipment { get; set; }
         public IParticipant.TeamColors TeamColor { get; set; }
 
-        public Driver(String Name, IEquipment Equipment, IParticipant.TeamColors Teamcolors)
+        public Driver(String name, IEquipment equipment, IParticipant.TeamColors teamcolors)
         {
-            this.Name = Name;
-            this.Equipment = Equipment;
-            this.TeamColor = Teamcolors;
+            this.Name = name;
+            this.Equipment = equipment;
+            this.TeamColor = teamcolors;
         }
 
         public int GetMovementSpeed()

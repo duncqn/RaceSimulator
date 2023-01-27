@@ -35,7 +35,7 @@ namespace ConsoleEdition
 
         #endregion graphics
 
-        internal static string[] SectionTypeToGraphic(SectionTypes sectionType, Direction direction)
+        private static string[] SectionTypeToGraphic(SectionTypes sectionType, Direction direction)
         {
             return sectionType switch
             {
@@ -82,7 +82,7 @@ namespace ConsoleEdition
             Data.CurrentRace.RaceFinished += Program.InitializeNextRace;
         }
 
-        public static void DrawTrack(Track track)
+        private static void DrawTrack(Track track)
         {
             _cPosX = CursorStartPosX;
             _cPosY = CursorStartPosY;
@@ -115,12 +115,12 @@ namespace ConsoleEdition
             ChangeCursorToNextPosition();
         }
 
-        internal static Direction ChangeDirectionLeft(Direction d)
+        private static Direction ChangeDirectionLeft(Direction d)
         {
             return (Direction)(((uint)d - 1) % 4);
         }
 
-        internal static Direction ChangeDirectionRight(Direction d)
+        private static Direction ChangeDirectionRight(Direction d)
         {
             return (Direction)(((uint)d + 1) % 4);
         }
@@ -147,7 +147,7 @@ namespace ConsoleEdition
             }
         }
 
-        internal static string[] ReplacePlaceHolders(string[] inputStrings, IParticipant leftParticipant,
+        private static string[] ReplacePlaceHolders(string[] inputStrings, IParticipant leftParticipant,
             IParticipant rightParticipant)
         {
             string[] returnStrings = new string[inputStrings.Length];

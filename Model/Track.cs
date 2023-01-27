@@ -5,8 +5,8 @@ namespace Model
 {
     public class Track
     {
-        public string Name { get; set; }
-        public LinkedList<Section> Sections { get; set; }
+        public string Name { get; }
+        public LinkedList<Section> Sections { get; }
 
         public const int Width = 150;
         public const int Height = 150;

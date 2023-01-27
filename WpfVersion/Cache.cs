@@ -10,35 +10,35 @@ namespace WpfVersion
 {
     public static class Cache
     {
-        internal static Dictionary<string, Bitmap> IMGCache = new();
+        private static readonly Dictionary<string, Bitmap> ImgCache = new();
         
         public static Bitmap GetImageData(string url, int width, int height)
         {
             if (url.Equals("Empty"))
                 return new Bitmap(url);
-            if (!IMGCache.ContainsKey(url))
-                IMGCache.Add(url, (Bitmap)new Bitmap(Image.FromFile(url)).Clone());
-            return AdjustSize(IMGCache[url], width, height);
+            if (!ImgCache.ContainsKey(url))
+                ImgCache.Add(url, (Bitmap)new Bitmap(Image.FromFile(url)).Clone());
+            return AdjustSize(ImgCache[url], width, height);
         }
-        public static Bitmap AdjustSize(Bitmap original, int width, int height)
+        private static Bitmap AdjustSize(Bitmap original, int width, int height)
         {
             return new Bitmap(original, new Size(width, height));
         }
 
         public static void ClearCache()
         {
-            IMGCache.Clear();
+            ImgCache.Clear();
         }
 
         public static Bitmap GenerateBitmap(int width, int height)
         {
-            if (!IMGCache.ContainsKey("empty"))
+            if (!ImgCache.ContainsKey("empty"))
             {
                 Bitmap bmp = new(width, height);
-                IMGCache.Add("empty", bmp);
+                ImgCache.Add("empty", bmp);
             }
 
-            return IMGCache["empty"].Clone() as Bitmap;
+            return ImgCache["empty"].Clone() as Bitmap;
         }
 
         public static BitmapSource CreateBitmapSourceFromGdiBitmap(Bitmap bitmap)

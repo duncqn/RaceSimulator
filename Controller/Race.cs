@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using System.Diagnostics;
+using Model;
 using System.Timers;
 using System.Xml;
 using Timer = System.Timers.Timer;
@@ -14,16 +15,16 @@ namespace Controller
     public class Race
     {
         public Track Track { get;}
-        public DateTime StartTime { get; set; }
+        public DateTime StartTime { get; private set; }
+        public Dictionary<IParticipant, int> LapsCompleted { get; }
+        private Dictionary<Section, SectionData> Positions { get; }
         public List<IParticipant> Participants { get; }
-        public readonly Dictionary<Section, SectionData> Positions;
-        public Dictionary<IParticipant, int> _lapsCompleted;
-        
-        public readonly Random _random;
-        public readonly Timer _timer;
+
+        private readonly Random _random;
+        private readonly Timer _timer;
         
         private const int TimerInterval = 500;
-        internal const int Laps = 2; //aantal laps -1 omdat het bij 0 begint
+        private const int Laps = 2; //aantal laps -1 omdat het bij 0 begint
 
         public event EventHandler<DriversChangedEventArgs> DriversChanged;
         public event EventHandler RaceFinished;
@@ -40,11 +41,16 @@ namespace Controller
 
         public Race(Track track, List<IParticipant> participants)
         {
+            if (participants.Count < 3)
+            {
+                throw new ArgumentOutOfRangeException(nameof(participants), "There must be a least 3 participants to start a race.");
+            }
+            
             Track = track;
             Participants = participants;
             _random = new Random(DateTime.Now.Millisecond);
             Positions = new Dictionary<Section, SectionData>();
-            _lapsCompleted = new Dictionary<IParticipant, int>();
+            LapsCompleted = new Dictionary<IParticipant, int>();
 
             AddItemsToDictionairy(participants);
 
@@ -52,24 +58,35 @@ namespace Controller
             _timer.Elapsed += OnTimedEvent;
 
             bool side = false;
-            int StartGridIndex = 0;
+            int startGridIndex = 0;
             int participantsToPlace = 0;
 
             List<Section> startGridSections = Track.Sections.Where(trackSection => trackSection.SectionType == SectionTypes.StartGrid).ToList();
             startGridSections.Reverse();
             List<Section> startGrid = startGridSections;
-            
-            if (Participants.Count >= startGrid.Count * 2)
-                participantsToPlace = startGrid.Count * 2;
-            else if (Participants.Count < startGrid.Count * 2)
-                participantsToPlace = Participants.Count;
-            
-            for (int i = 0; i < participantsToPlace; i++)
+
+            try
             {
-                PlaceParticipantOnTrack(Participants[i], side, startGrid[StartGridIndex]);
-                side = !side;
-                if (i % 2 == 1)
-                    StartGridIndex++;
+                if (Participants.Count <= startGrid.Count * 2)
+                {
+                    participantsToPlace = startGrid.Count * 2;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException(nameof(participants), "Track does not have enough start places.");
+                }
+                
+                for (int i = 0; i < participantsToPlace; i++)
+                {
+                    PlaceParticipantOnTrack(Participants[i], side, startGrid[startGridIndex]);
+                    side = !side;
+                    if (i % 2 == 1)
+                        startGridIndex++;
+                }
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e);
             }
 
             foreach (IParticipant participant in Participants)
@@ -80,21 +97,21 @@ namespace Controller
             
             foreach (IParticipant participant in Participants)
             {
-                _lapsCompleted.Add(participant, -1);
+                LapsCompleted.Add(participant, -1);
             }
         }
 
-        public void AddItemsToDictionairy(List<IParticipant> participants)
+        private void AddItemsToDictionairy(List<IParticipant> participants)
         {
             foreach (IParticipant p in participants)
             {
-                Data.Competition.timesBrokenDown.Add(p, 0);
-                Data.Competition.speed.Add(p,0);
+                Data.Competition.TimesBrokenDown.Add(p, 0);
+                Data.Competition.Speed.Add(p,0);
                 
             }
         }
 
-        public void PlaceParticipantOnTrack(IParticipant p, bool side, Section section)
+        private void PlaceParticipantOnTrack(IParticipant p, bool side, Section section)
         {
             if (side)
                 GetSectionData(section).Right = p;
@@ -102,7 +119,7 @@ namespace Controller
                 GetSectionData(section).Left = p;
         }
 
-        public void OnTimedEvent(object sender, ElapsedEventArgs e)
+        private void OnTimedEvent(object sender, ElapsedEventArgs e)
         {
             RandomizeEquipmentFixing();
             RandomEquipmentBreaking();
@@ -116,7 +133,7 @@ namespace Controller
             }
         }
 
-        public void RandomizeEquipmentFixing()
+        private void RandomizeEquipmentFixing()
         {
             foreach (IParticipant participant in Participants.Where(p => p.Equipment.IsBroken))
             {
@@ -137,11 +154,11 @@ namespace Controller
                 Positions.Values.Where(a => a.Left != null).Select(a => a.Left).Concat(Positions.Values.Where(a => a.Right != null).Select(a => a.Right)).ToList();
             foreach (IParticipant participant in participantsOnTrack)
             {
-                double qualityChance = (11 - (participant.Equipment.Quality * 0.5)) * 0.0005;
+                double qualityChance = (11 - (participant.Equipment.Quality * 0.5)) * 0.005;
                 if (_random.NextDouble() < qualityChance)
                 {
                     participant.Equipment.IsBroken = true;
-                    Data.Competition.timesBrokenDown[participant]++;
+                    Data.Competition.TimesBrokenDown[participant]++;
                 }
             }
         }
@@ -237,11 +254,11 @@ namespace Controller
             }
         }
 
-        public int GetSpeedFromParticipant(IParticipant iParticipant)
+        private int GetSpeedFromParticipant(IParticipant iParticipant)
         {
             var speed = Convert.ToInt32(
                 Math.Ceiling(0.4 * (iParticipant.Equipment.Speed * 0.5) * iParticipant.Equipment.Performance + 18));
-            Data.Competition.speed[iParticipant] = speed;
+            Data.Competition.Speed[iParticipant] = speed;
             return speed;
         }
 
@@ -302,14 +319,14 @@ namespace Controller
                 currentSectionData.DistanceRight = 99;
         }
         
-        public void UpdateLap(IParticipant participant)
+        private void UpdateLap(IParticipant participant)
         {
-            _lapsCompleted[participant]++;
+            LapsCompleted[participant]++;
         }
 
-        public bool IsFinished(IParticipant participant) => _lapsCompleted[participant] >= Laps;
+        private bool IsFinished(IParticipant participant) => LapsCompleted[participant] >= Laps;
 
-        public bool CheckIfFinishSection(Section section)
+        private bool CheckIfFinishSection(Section section)
         {
             return section.SectionType == SectionTypes.Finish;
         }
@@ -330,7 +347,7 @@ namespace Controller
             }
         }
 
-        public bool CheckRaceFinished() => Positions.Values.FirstOrDefault(a => a.Left != null || a.Right != null) == null;
+        private bool CheckRaceFinished() => Positions.Values.FirstOrDefault(a => a.Left != null || a.Right != null) == null;
         
         public void Start()
         {

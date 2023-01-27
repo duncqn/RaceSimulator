@@ -32,6 +32,8 @@ namespace ControllerTest
             _track = new Track("test", new SectionTypes[] { SectionTypes.StartGrid, SectionTypes.Straight, SectionTypes.LeftCorner, SectionTypes.RightCorner, SectionTypes.Finish });
             _participants = new List<IParticipant>();
             _participants.Add(new Driver("Driver1", new Car(1, 1, 1, false),TeamColors.Blue));
+            _participants.Add(new Driver("Driver2", new Car(1, 1, 1, false),TeamColors.Blue));
+            _participants.Add(new Driver("Driver3", new Car(1, 1, 1, false),TeamColors.Blue));
             _testRace = new Race(_track, _participants);
 
             foreach (var section in Data.CurrentRace.Track.Sections)

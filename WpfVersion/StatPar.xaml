@@ -23,11 +23,11 @@
             </DockPanel>
             <DockPanel Grid.Column="1">
                 <Label DockPanel.Dock="Top" Content="Laps" />
-                <ListView Margin="10" ItemsSource="{Binding Lap, Mode=OneWay}" />
+                <ListView Margin="10" ItemsSource="{Binding CompletedLaps, Mode=OneWay}" />
             </DockPanel>
             <DockPanel Grid.Column="2">
                 <Label DockPanel.Dock="Top" Content="Speed" />
-                <ListView Margin="10" ItemsSource="{Binding Equipment, Mode=OneWay}" />
+                <ListView Margin="10" ItemsSource="{Binding ParticipantSpeed, Mode=OneWay}" />
             </DockPanel>
         </Grid>
     </Grid>
